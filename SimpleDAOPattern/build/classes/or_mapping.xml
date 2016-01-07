@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OR-Mappings>
+	<jdbc>
+		<property>
+			<name>driverClass</name>
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		
+		<property>
+			<name>jdbcUrl</name>
+			<value>jdbc:mysql:///jeework</value>
+		</property>
+		
+		<property>
+			<name>user</name>
+			<value>root</value>
+		</property>
+		
+		<property>
+			<name>password</name>
+			<value>111</value>
+		</property>
+	</jdbc>
+
+	<class>
+		<name>cn.ustc.domain.User</name>
+		<table>user</table>
+		<id>
+			<name>userID</name>
+		</id>
+		
+		<property>
+			<name>userName</name>
+			<column>name</column>
+			<type>String</type>
+			<lazy>false</lazy>
+		</property>
+		
+		<property>
+			<name>password</name>
+			<column>user_password</column>
+			<type>String</type>
+			<lazy>true</lazy>
+		</property>
+		
+		<!-- other property -->
+		
+	</class>
+	
+	<!-- other class -->
+	
+</OR-Mappings>
+
+	

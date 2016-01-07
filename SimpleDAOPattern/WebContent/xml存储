@@ -1,0 +1,12 @@
+{
+	class={
+				cn.ustc.domain.User=
+						{
+							id=userID, 
+							properties={password={column=user_password, lazy=true, type=String}}, 
+							table=user
+						}
+			}, 
+	
+	jdbc={driverClass=com.mysql.jdbc.Driver, jdbcUrl=jdbc:mysql:///jeework, password=111, user=root}
+}
