@@ -1,11 +1,11 @@
-	Git----笔记
+﻿	Git----笔记
 
-	1.Git安装完成后做一下配置	
+	1.Git安装完成后需要做的配置	
 		$ git config --global user.name "Your Name"
 		$ git config --global user.email "email@example.com"
 
 	2.版本库创建
-		初始化一个Git仓库，使用git init命令。
+		初始化一个Git仓库，使用git init命令初始化。
 		添加文件到Git仓库，分两步：
 		第一步，使用命令git add <file>，注意，可反复多次使用，添加多个文件；
 		第二步，使用命令git commit，完成。
@@ -34,11 +34,11 @@
 		
 	7.删除恢复
 		你通常直接在文件管理器中把没用的文件删了，或者用 rm 文件名 命令删除：
-		命令 git rm 文件名 用于删除一个文件。如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本
+		命令 git rm 文件名 用于删除一个文件。如果一个文件已经被提交到版本库，那你就不用担心误删，因为你可以恢复文件到最新版本
 		git checkout -- 文件名 命令其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”。
 		
 		
-	8、使用远程仓库 git@github.com:liulei1/Local.git
+	8.使用远程仓库 git@github.com:liulei1/Local.git
 		8.1 生成ssh key
 			$ ssh-keygen -t rsa -C "youremail@example.com"
 			将用户主目录下，.ssh目录中的id_rsa.pub文件的公钥内容放入到远程仓库中。（通过“Add SSH Key”添加）
@@ -46,6 +46,49 @@
 		8.2 要关联一个远程库，使用命令git remote add origin git@server-name:path/repo-name.git；
 			关联后，使用命令git push -u origin master第一次推送master分支的所有内容；
 			此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；
+			
+		8.3 克隆远程仓库
+			git clone git@github.com:liulei1/Local.git
+		8.4 查看添加的远程库
+			git remote -v
+	
+	9.创建和合并分支
+	
+		查看分支：git branch
+		创建分支：git branch 分支名
+		切换分支：git checkout 分支名
+		创建+切换分支：git checkout -b 分支名
+		合并某分支到当前分支：git merge 分支名
+		删除分支：git branch -d 分支名
+		查看分支合并图：git log --graph  $ git log --graph --pretty=oneline --abbrev-commit
 		
+	10.Bug分支
+		情形：当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，再git stash pop，回到工作现场。
 		
+		Git把stash内容存在某个地方了，但是需要恢复一下，有两个办法：
+			一是用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除；
+			另一种方式是用git stash pop，恢复的同时把stash内容也删了：
 		
+		用git stash list查看之前存储的工作现场
+		git stash apply stash@{0} 跳转到相应的slash工作现场
+		
+	11.Feature分支
+		添加一个新功能时，你肯定不希望因为一些实验性质的代码，把主分支搞乱了，所以，每添加一个新功能，最好新建一个feature分支，在上面开发，完成后，合并，最后，删除该feature分支。
+		如果在合并分支之前该分支的功能不需要了，就要丢弃这个没有被合并过的分支，可以通过git branch -D <name>强行删除
+	
+	12.多人协作-分支
+	查看远程库信息，使用git remote -v；
+	本地新建的分支如果不推送到远程，对其他人就是不可见的；
+	从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+	在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+	建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+	从远程抓取分支，使用git pull，如果有冲突，要先处理冲突
+	
+	git pull：相当于是从远程获取最新版本并merge到本地
+ 	git fetch：相当于是从远程获取最新版本到本地，不会自动merge (推荐)
+
+	git rebase  --不会产生合并的提交,它会将本地的所有提交临时保存为补丁(patch),放在”.git/rebase”目录中,然后将当前分支更新到最新的分支尖端,最后把保存的补丁应用到分支上.
+     rebase的过程中,也许会出现冲突,Git会停止rebase并让你解决冲突,在解决完冲突之后,用git add去更新这些内容,然后无需执行commit,只需要:
+     git rebase --continue就会继续打余下的补丁.
+     git rebase --abort将会终止rebase,当前分支将会回到rebase之前的状态.
+
